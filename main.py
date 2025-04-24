@@ -56,14 +56,15 @@ def handle_file(update: Update, context: CallbackContext):
     file.get_file().download(file_path)
     update.message.reply_text(
     "✅ File received! Now send a value name and new float value.\n\nFormat:\n```"
+    "Format\n"
     "KNOCK SPEED: -0.64,\n"
-    "STAND BACK SPEED: -143.9,\n"
-    "STAND RIGHT SPEED: -119.9,\n"
-    "CROUCH SPEED: -135.25,\n"
-    "BACK CROUCH SPEED: -103.28,\n"
-    "RIGHT CROUCH SPEED: -86.05,\n"
-    "PRONE SPEED: -359.5,\n"
-    "PRONE BACK/RIGHT: -20.0,\n"
+    "STAND BACK SPEED: -143.9\n"
+    "STAND RIGHT SPEED: -119.9\n"
+    "CROUCH SPEED: -135.25\n"
+    "BACK CROUCH SPEED: -103.28\n"
+    "RIGHT CROUCH SPEED: -86.05\n"
+    "PRONE SPEED: -359.5\n"
+    "PRONE BACK/RIGHT: -20.0\n"
     "SPRINT SPEED: 160.5\n```📋 Tap & Hold to Copy",
     parse_mode="Markdown"
 )
