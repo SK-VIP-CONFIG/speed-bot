@@ -8,9 +8,9 @@ import os
 
 # Logging
 logging.basicConfig(level=logging.INFO)
-TOKEN = "7432795021:AAGkrn3xpzOyLcwAR1QnucqHpbZXtzCiqTg"
+TOKEN = "7432795021:AAGkrn3xpzOyLcwAR1QnucqHpbZXtzCiqTg"  # 🔁 यहाँ अपना Telegram Bot Token डालो
 
-# Value Mappings
+# Value Mappings (original values for replacing)
 value_mappings = {
     "KNOCK SPEED": -0.64,
     "STAND BACK SPEED": -143.9,
@@ -23,11 +23,11 @@ value_mappings = {
     "SPRINT SPEED": 160.5
 }
 
-# Float to bytes
+# Float to hex bytes
 def float_to_hex_bytes(value):
     return struct.pack('<f', value)
 
-# Modify file
+# Modify float value in file
 def modify_file(file_path, search_value, new_value):
     with open(file_path, 'rb') as f:
         data = f.read()
@@ -41,11 +41,11 @@ def modify_file(file_path, search_value, new_value):
         return True
     return False
 
-# Start Command
+# /start command
 def start(update: Update, context: CallbackContext):
     update.message.reply_text("👋 Send me a .uexp or .dat file and I’ll modify it for you!")
 
-# Handle file uploads
+# File upload handler
 def handle_file(update: Update, context: CallbackContext):
     file = update.message.document
     if not file.file_name.endswith(('.uexp', '.dat')):
@@ -54,25 +54,24 @@ def handle_file(update: Update, context: CallbackContext):
 
     file_path = f"./{file.file_name}"
     file.get_file().download(file_path)
-    update.message.reply_text(
-    "✅ File received! Now send a value name and new float value.\n\nFormat:\n```"
-    "Format\n"
-    "KNOCK SPEED: -0.64,\n"
-    "STAND BACK SPEED: -143.9\n"
-    "STAND RIGHT SPEED: -119.9\n"
-    "CROUCH SPEED: -135.25\n"
-    "BACK CROUCH SPEED: -103.28\n"
-    "RIGHT CROUCH SPEED: -86.05\n"
-    "PRONE SPEED: -359.5\n"
-    "PRONE BACK/RIGHT: -20.0\n"
-    "SPRINT SPEED: 160.5\n```📋 Tap & Hold to Copy",
-    parse_mode="Markdown"
-)
-
-    # Save file path in context for next step
     context.user_data['file_path'] = file_path
 
-# Handle text for replacement
+    update.message.reply_text(
+        "✅ File received! Now send new values in this format:\n\n"
+        "```Format:\n"
+        "KNOCK SPEED: -0.64\n"
+        "STAND BACK SPEED: -143.9\n"
+        "STAND RIGHT SPEED: -119.9\n"
+        "CROUCH SPEED: -135.25\n"
+        "BACK CROUCH SPEED: -103.28\n"
+        "RIGHT CROUCH SPEED: -86.05\n"
+        "PRONE SPEED: -359.5\n"
+        "PRONE BACK/RIGHT: -20.0\n"
+        "SPRINT SPEED: 160.5\n```",
+        parse_mode="Markdown"
+    )
+
+# Text message handler (multi-line value edit)
 def handle_text(update: Update, context: CallbackContext):
     if 'file_path' not in context.user_data:
         update.message.reply_text("❗ First send a .uexp or .dat file.")
@@ -80,26 +79,39 @@ def handle_text(update: Update, context: CallbackContext):
 
     try:
         text = update.message.text.strip()
-        name, val = text.split(':')
-        name = name.strip().upper()
-        new_val = float(val.strip())
-
-        if name not in value_mappings:
-            update.message.reply_text("⚠️ Invalid key name. Allowed keys:\n" + "\n".join(value_mappings.keys()))
-            return
-
+        lines = text.split('\n')
         file_path = context.user_data['file_path']
-        success = modify_file(file_path, value_mappings[name], new_val)
 
-        if success:
-            update.message.reply_document(open(file_path, 'rb'))
-            update.message.reply_text("✅ Modified successfully!")
-        else:
-            update.message.reply_text("❌ Value not found in file.")
+        results = []
+        for line in lines:
+            if ':' not in line:
+                continue
+            name, val = line.split(':', 1)
+            name = name.strip().upper()
+            try:
+                new_val = float(val.strip())
+            except ValueError:
+                results.append(f"❌ {name}: Invalid number.")
+                continue
+
+            if name not in value_mappings:
+                results.append(f"❌ {name}: Not a valid key.")
+                continue
+
+            old_val = value_mappings[name]
+            success = modify_file(file_path, old_val, new_val)
+
+            if success:
+                results.append(f"✅ {name}: Modified.")
+            else:
+                results.append(f"⚠️ {name}: Value not found.")
+
+        update.message.reply_text('\n'.join(results))
+        update.message.reply_document(open(file_path, 'rb'))
     except Exception as e:
         update.message.reply_text(f"⚠️ Error: {e}")
 
-# Main
+# Main function
 def main():
     updater = Updater(TOKEN)
     dp = updater.dispatcher
