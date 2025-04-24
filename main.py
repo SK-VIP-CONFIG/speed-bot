@@ -8,7 +8,7 @@ import os
 
 # Logging
 logging.basicConfig(level=logging.INFO)
-TOKEN = "YOUR_TELEGRAM_BOT_TOKEN"
+TOKEN = "7432795021:AAGkrn3xpzOyLcwAR1QnucqHpbZXtzCiqTg"
 
 # Value Mappings
 value_mappings = {
