@@ -43,7 +43,7 @@ def modify_file(file_path, search_value, new_value):
 
 # /start command
 def start(update: Update, context: CallbackContext):
-    update.message.reply_text("👋 Send me a .uexp or .dat file and I’ll modify it for you!")
+    update.message.reply_text("👋 𝐒𝐞𝐧𝐝 𝐌𝐞 𝐚 .𝐮𝐞𝐱𝐩 𝐨𝐫 .𝐝𝐚𝐭 𝐅𝐢𝐥𝐞 𝐀𝐧𝐝 𝐈’𝐥𝐥 𝐌𝐨𝐝𝐢𝐟𝐲 𝐈𝐭 𝐅𝐨𝐫 𝐘𝐨𝐮 !")
 
 # File upload handler
 def handle_file(update: Update, context: CallbackContext):
@@ -75,7 +75,7 @@ def handle_file(update: Update, context: CallbackContext):
 # Text message handler (multi-line value edit)
 def handle_text(update: Update, context: CallbackContext):
     if 'file_path' not in context.user_data:
-        update.message.reply_text("❗ First send a .uexp or .dat file.")
+        update.message.reply_text("❗ 𝐅𝐢𝐫𝐬𝐭 𝐒𝐞𝐧𝐝 𝐚 .𝐮𝐞𝐱𝐩 𝐎𝐫 .𝐝𝐚𝐭 𝐅𝐢𝐥𝐞.")
         return
 
     try:
