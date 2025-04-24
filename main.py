@@ -57,7 +57,8 @@ def handle_file(update: Update, context: CallbackContext):
     context.user_data['file_path'] = file_path
 
     update.message.reply_text(
-        "✅ File received! Now send new values in this format:\n\n"
+        "✅ 𝐅𝐢𝐥𝐞 𝐑𝐞𝐜𝐞𝐢𝐯𝐞𝐝 ! 𝐍𝐨𝐰 𝐒𝐞𝐧𝐝 𝐍𝐞𝐰 𝐕𝐚𝐥𝐮𝐞𝐬 𝐈𝐧 𝐓𝐡𝐢𝐬 𝐅𝐨𝐫𝐦𝐚𝐭:\n\n"
+        "📑 𝐂𝐨𝐩𝐲 𝐓𝐡𝐞 𝐅𝐨𝐫𝐦𝐚𝐭 𝐆𝐢𝐯𝐞𝐧 𝐁𝐞𝐥𝐨𝐰, 𝐄𝐝𝐢𝐭 𝐈𝐭𝐬 𝐕𝐚𝐥𝐮𝐞𝐬 𝐀𝐧𝐝 𝐒𝐞𝐧𝐝 𝐈𝐭.\n"
         "```Format:\n"
         "KNOCK SPEED: -0.64\n"
         "STAND BACK SPEED: -143.9\n"
