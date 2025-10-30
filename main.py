@@ -8,7 +8,7 @@ import os
 
 # Logging
 logging.basicConfig(level=logging.INFO)
-TOKEN = "7432795021:AAEBU3HYrrcP1ap3MvsQkZ1sJ6X3UhQzoB8"  # 🔁 यहाँ अपना Telegram Bot Token डालो
+TOKEN = "7432795021:AAGMOoMf9GtHwmk8DHTS03ydH1MEAKeqx1k"  # 🔁 यहाँ अपना Telegram Bot Token डालो
 
 # Value Mappings (original values for replacing)
 value_mappings = {
@@ -126,4 +126,5 @@ def main():
 
 if __name__ == '__main__':
     main()
+
 
